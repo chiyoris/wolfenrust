@@ -143,6 +143,26 @@ fn main() {
             }
         }
 
+        if window.is_key_down(Key::Comma) {
+            let old_dir_x = dir_x;
+            dir_x = dir_x * rot_speed.cos() - dir_y * rot_speed.sin();
+            dir_y = old_dir_x * rot_speed.sin() + dir_y * rot_speed.cos();
+
+            let old_plane_x = plane_x;
+            plane_x = plane_x * rot_speed.cos() - plane_y * rot_speed.sin();
+            plane_y = old_plane_x * rot_speed.sin() + plane_y * rot_speed.cos();
+        }
+
+        if window.is_key_down(Key::Period) {
+            let old_dir_x = dir_x;
+            dir_x = dir_x * (-rot_speed).cos() - dir_y * (-rot_speed).sin();
+            dir_y = old_dir_x * (-rot_speed).sin() + dir_y * (-rot_speed).cos();
+
+            let old_plane_x = plane_x;
+            plane_x = plane_x * (-rot_speed).cos() - plane_y * (-rot_speed).sin();
+            plane_y = old_plane_x * (-rot_speed).sin() + plane_y * (-rot_speed).cos();
+        }
+
         for x in 0..WIDTH {
             let camera_x = 2.0 * x as f64 / WIDTH as f64 - 1.0;
             let ray_dir_x = dir_x + plane_x * camera_x;
@@ -207,16 +227,16 @@ fn main() {
             let draw_start = (-line_height / 2 + HEIGHT as i64 / 2).max(0);
             let draw_end = (line_height / 2 + HEIGHT as i64 / 2).min(HEIGHT as i64 - 1);
 
-            let color: u32 = if side == 0 { 0xFF0000 } else { 0x00FF00 };
+            let color: u32 = if side == 0 { 0x000000 } else { 0xFFFFFF };
 
             for y in 0..HEIGHT {
                 let idx = y * WIDTH + x;
                 if y < draw_start as usize {
-                    buffer[idx] = 0x222222;
+                    buffer[idx] = 0x161616;
                 } else if y <= draw_end as usize {
                     buffer[idx] = color;
                 } else {
-                    buffer[idx] = 0x333333;
+                    buffer[idx] = 0x222222;
                 }
             }
         }
